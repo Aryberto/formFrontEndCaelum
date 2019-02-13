@@ -1,0 +1,27 @@
+<meta charset="utf-8">
+<h1> JS: BOM, DOM, docuemnt, window</h1>
+<p id="meuParagrafo">
+    Um paragrafo qualquer no docuemnto!!!
+</p>
+
+<script>
+    //variaveis criadas com "var" ficam armazenadas no objeto global (window)
+    var a = 10;
+    console.log( window.a === a ); //true
+    // meuParagrafo.textContent = 'JS alterou meu paragrafo!'; //jeito antigo, nao se usa mais 
+    document.querySelector('#meuParagrafo').textContent = 'Js Moderno Alterou o paragrafo';
+
+    //criar um time que executa uma funcao apenas uma vez depois de determinado tempo
+    setTimeout(mudarParagrafo, 3000); //vai executar a funcao mudarParagrafo depois de tres segundos
+    function mudarParagrafo() {
+        document.querySelector('#meuParagrafo').textContent = 'Texto Alterado depois de 3 segundos!';
+    }
+
+    //cria um timer que executa um funcao de x em x segundos
+    setInterval(alteraParagrafo, 8000);
+    let contador = 0;
+    function alteraParagrafo() {
+        contador++; // acrescenta 1 à variável contador
+        document.querySelector('#meuParagrafo').textContent = `Alterado pela ${contador}ª vez`;
+    }
+</script>

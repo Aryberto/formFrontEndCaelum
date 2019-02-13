@@ -1,0 +1,146 @@
+<meta charset="utf-8" />
+<h1>JS: this, insertBefore, append, prepend, remove, insertAdjacentHTML</h1>
+<style>
+    .msg {
+        padding: 15px 25px;
+        border-radius: 5px;
+        background: #f2f2f2;
+        border: 1px solid #DDD;
+    }
+    .msg-error, .destacar {
+        border-color: #DB2323!important;
+        color: #DB2323;
+        background: #FFF0F0;
+    }
+    .msg-sucess {
+        border-color: #30CF6C;
+        color: #30CF6C;
+        background: #E3FFEE;
+    }
+    .field {
+        margin-bottom: 10px;
+    }
+    form {
+        width: 400px;
+        margin-top: 20px;
+    }
+    body {
+        padding: 60px;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    input[type=text] {
+        width: 100%;
+        border: 1px solid #ccc;
+        padding: 12px;
+        box-sizing: border-box;
+    }
+    button {
+        border-radius: 5px;
+        border: none;
+        background: green;
+        color: #fff;
+        padding: 15px 35px;
+    }
+</style>
+
+<form action="" id="form1">
+    <div class="field">
+        <label for="">
+            Nome: <br>
+            <input type="text" class="required" data-mensagem="Nome é obrigatorio!">
+        </label>
+    </div>
+    <div class="field">
+        <label for="">
+            E-mail: <br>
+            <input type="text" class="required" data-mensagem="E-mail é obrigatorio!">
+        </label>
+    </div>
+    <div class="field">
+        <label for="">
+            Telefone: <br>
+            <input type="text">
+        </label>
+    </div>
+    <div class="field">
+        <button type="submit">
+            Cadastrar
+        </button>
+    </div>
+</form>
+
+<script>
+    console.log(this === window);
+    // pega a referencia do elemento form e guarda na constante "const"
+    const form = document.querySelector('#form1');
+    // monitora o evento "submit" que é executado quando o usuario tenta enviar o formulario
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const camposObrigatorios = form.querySelectorAll('.required');
+        let isFormValido = true; // constrolar se o formulario esta corretamente preenchido
+        const mensagensErro = []; // guarda a msg de erro d cada campo
+
+        for (let i = 0; i < camposObrigatorios.length; i++) {
+            // pega o campo obrigatorio do indice atual
+            let campo = camposObrigatorios[i];
+            //trim().lenght = limpa os espaços vazios e verifica a qunatidade de caracteres se for 0 entao nada foidigitado, se 
+            //for mais que 0 entao alguma coisa foi digitada
+            let isVazio = campo.value.trim().length === 0;
+            //se o campo esta vazio
+            if (isVazio === true) {
+                //adiciona a classe "destaca" para mostrar para o usuario que ele precisa preencher esse campo
+                campo.classList.add('destacar');
+                isFormValido = false; //essa variavel é falsa porque tem campos para serem preenchidos
+                mensagensErro.push(campo.dataset.mensagem);
+            }
+            else {
+                //remove a classe destacar
+                campo.classList.remove('destacar');
+            }
+        }//fecha o laço FOR
+
+        //se houver campos para serem preenchidos ainda...
+        if (isFormValido === false) {
+            event.preventDefault(); //bloqueia o envio do formulario por enquanto
+            //mostramos pro usuario um alerta com a mensagem abaixo
+            //alert(`Por favor, preencha os campos sinalizados!\n${ mensagensErro.join('\n')}`);
+            const divMsgError = document.createElement('div');
+            divMsgError.classList.add('msg', 'msg-error');
+            //textContent trata como texto ----- innerHMLS trata como HTML
+            divMsgError.innerHTML = ` 
+                Por favor, preencha os campos sinalizados!<br> 
+                ${ mensagensErro.join('<br>')} 
+            `; // join separa conforme eu mando entre parentes
+
+            //document.body.insertBefore(divMsgError, form); // insertBerfore(elementoNovo, elementoReferencia) : 
+            // insere o elemento NOVO Antes do elemento que serve de referencia  
+
+            //form.appendChild(divMsgError); // adiciona como último filho do 'form'  
+
+            //form.append(divMsgError); // a mesma coisa de appendChild     
+
+            //form.prepend(divMsgError); // adiciona como primeiro filho do 'form' 
+            /*
+            *   'beforebegin': antes do começo da tag de referencia, no caso aqui, 'form''
+            *   'afterbegin' : depois do começo da tag, ou seja, inseri como primeiro filho do 'form'
+            *   'beforeend': antes do final da tag, ou seja, insere como ultimo filho do 'form'
+            *   'afterend' : depois do final da tag, ou seja, depois do 'form'
+            */
+
+            //form.insertAdjacentElement('beforebegin', divMsgError);
+
+            form.insertAdjacentHTML('afterbegin', `
+                <div class="msg msg-error">
+                    <strong>Atenção!</strong><br>
+                    ${mensagensErro.join('<br>')}
+                </div>
+            `);
+
+            setTimeout(function(){
+                form.querySelector('.msg').remove();
+            }, 5000);
+        }
+
+
+    });
+</script>

@@ -1,0 +1,60 @@
+<meta charset="utf-8">
+<h1>JS: Classlist (add, remove, toggle, contains)</h1>
+<style>
+    .button {
+        background: #ddd;
+        border: 1px solid #bbb;
+        padding: 8px 15px;
+        border-radius: 5px;
+    }
+
+    .button-red {
+        background: #FFF0F0;
+        border-color: #DB2323;
+        color: #DB2323;
+    }
+</style>
+
+<button class="button" id="btn1">
+    add('button-red')
+</button>
+<button class="button button-red" id="btn2">
+    remove('button-red')
+</button>
+<button class="button" id="btn3">
+    toggle('button-red')
+</button>
+<button class="button button-red" id="btn4">
+    contains('button-red')(?)
+</button>
+<script>
+    //guardo as referencias dos botoes para manipula-los separadamente
+    const button1 = document.querySelector('#btn1');
+    const button2 = document.querySelector('#btn2');
+    const button3 = document.querySelector('#btn3');
+    const button4 = document.querySelector('#btn4');
+
+    button1.onclick = function () {
+        // adiciona a classe 'button-red' ao botao quando ele é clicado 
+        button1.classList.add('button-red');
+    }
+
+    button2.onclick = function () {
+        // remove a classe 'button-red' quando o botao é clicado 
+        button2.classList.remove('button-red');
+    }
+
+    button3.onclick = function () {
+        //adiciona ou remove a classe 'button-red'do botao clicado
+        button3.classList.toggle('button-red');
+    }
+
+    button4.onclick = function () {
+        //contains() retorna true se a classe especificada foir encontrada no elemento indicado e false caso nao consiga encontrar essa classe 
+        let temAClasseButtonRed = button4.classList.contains('button-red');
+        if (temAClasseButtonRed) {
+            alert('SIM!! o Botão tem a classe "button-red"....');
+        }
+    }
+
+</script>

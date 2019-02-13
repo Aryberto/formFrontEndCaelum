@@ -1,0 +1,126 @@
+<meta charset="utf-8" />
+<h1>Jquery: apepend, appendTo, prepend, prependTo, insertBefore, insertAfter, before, after</h1>
+<style>
+    .msg {
+        padding: 15px 25px;
+        border-radius: 5px;
+        background: #f2f2f2;
+        border: 1px solid #DDD;
+    }
+    .msg-error, .destacar {
+        border-color: #DB2323!important;
+        color: #DB2323;
+        background: #FFF0F0;
+    }
+    .msg-sucess {
+        border-color: #30CF6C;
+        color: #30CF6C;
+        background: #E3FFEE;
+    }
+    .field {
+        margin-bottom: 10px;
+    }
+    form {
+        width: 400px;
+        margin-top: 20px;
+    }
+    body {
+        padding: 60px;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    input[type=text] {
+        width: 100%;
+        border: 1px solid #ccc;
+        padding: 12px;
+        box-sizing: border-box;
+    }
+    button {
+        border-radius: 5px;
+        border: none;
+        background: green;
+        color: #fff;
+        padding: 15px 35px;
+    }
+</style>
+
+<form action="" id="form1">
+    <div class="field">
+        <label for="">
+            Nome: <br>
+            <input type="text" class="required" data-mensagem="Nome é obrigatorio!">
+        </label>
+    </div>
+    <div class="field">
+        <label for="">
+            E-mail: <br>
+            <input type="text" class="required" data-mensagem="E-mail é obrigatorio!">
+        </label>
+    </div>
+    <div class="field">
+        <label for="">
+            Telefone: <br>
+            <input type="text">
+        </label>
+    </div>
+    <div class="field">
+        <button type="submit">
+            Cadastrar
+        </button>
+    </div>
+</form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+    const form = $('#form1');
+    //on(): equivalente ao addEventListener()
+    form.on('submit', function(event) {
+        //pegamos os campos obrigatorios (this = form);
+        const camposObrigatorios = $('.required', this);
+        let isFormValido = true;
+        let mensagensErro = [];
+        // percorremos os campos obrigatorios retornados
+        camposObrigatorios.each(function(indice, campo) {
+            // $.trim() = remove espacos da string
+            // .val() = retorna o valor digitado no campo
+            let isVazio = $.trim($(campo).val()).length === 0;
+            if (isVazio === true)  {
+                $(campo).addClass('destacar');
+                isFormValido = false;
+                // .data() = pega informcaoes setadas na estrutura dataset (data-mensagem)
+                mensagensErro.push($(campo).data('mensagem'));
+            }
+            else {
+                $(campo).removeClass('destacar');
+            }
+        }); // final do comando .each()
+
+        // se o form for invalido (ou seja, tem campos paras serem preenchidos)
+        if (isFormValido === false) {
+            event.preventDefault(); // bloqueia o envio do form
+            let divMsgError = $(`
+                <div class="msg msg-error">
+                    <strong>Atenção!</strong><br>
+                    ${mensagensErro.join('<br>')}
+                </div>
+            `);
+            // adiciona divMsgError dentro e no inicio do form
+            divMsgError.prependTo(form);
+
+            // form.prepend(divMsgError); 
+
+            //divMsgError.appendTo(form); // adicona divMsgError dentro e no final do form
+            // form.append(divMsgError);
+
+            //divMsgError.insertBefore(form); // adiciona o divMsgError antes e fora da tag form
+            // form.before(divMsgError);
+
+            //divMsgError.insertAfter(form); // adicona o divMsgError depois e fora da tag form
+            //form.after(divMsgError);
+
+            divMsgError.delay(5000).fadeOut('slow', function() {
+                divMsgError.remove();
+            });
+        }
+    });
+</script>

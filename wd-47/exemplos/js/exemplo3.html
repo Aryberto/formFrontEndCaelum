@@ -1,0 +1,50 @@
+<meta charset="utf-8">
+<h1>JS: querySelector() e querySelectorAll()</h1>
+<style>
+    p{
+        padding: 15px 25px;
+        border-radius: 5px;
+        background: #f2f2f2;
+        border: 1px solid #DDD;
+    }
+
+    p.red {
+        border-color: #DB2323;
+        color: #DB2323;
+        background: #FFF0F0;
+    }
+</style>
+<p>Parágrafo 1</p>
+<p class="red">Parágrafo 2</p>
+<p>Parágrafo 3</p>
+<p>Parágrafo 4</p>
+<p class="red">Parágrafo 5</p>
+<p>Parágrafo 6</p>
+<p class="red">Parágrafo 7</p>
+<p>Parágrafo 8</p>
+<p>Parágrafo 9</p>
+<p id="p10">Parágrafo 10</p>
+<script>
+    //querySelector() seleciona o elemento que atende à regra CSS e guarda a referencia 
+    // deste objeto/elemento na variavel "paragrafo"
+    let parag10 = document.querySelector('#p10');
+    parag10.textContent = "Parágrafo modificado";
+    parag10.style.fontStyle = 'italic'; //muda a fonte para italic
+
+    //querySelectoAll() retorna todos os elementos que atendem à regra CSS e guarda numa lista (Array)
+    let listaReds = document.querySelectorAll('p.red');
+    console.log('Lista de Elementos', listaReds);
+    for (let i = 0; i < listaReds.length; i++) {
+        listaReds[i].textContent = "MODIFICADO..."
+    }
+
+    //forEach() percorre Arrays (listas)
+    listaReds.forEach(function(item){
+        item.textContent = 'MODIFICADO DE NOVO...';
+    });
+
+    //ES6: ARRow FUNCTIONS
+    listaReds.forEach((item) => item.textContent = 'OUTRA VEZ...');
+
+
+</script>

@@ -1,0 +1,127 @@
+<meta charset="utf-8">
+<h1>Jquery: eventBubbling, prev, prevAll, next, nextAll, parent, closest</h1>
+
+<!-- table#tabela1.table>(thead>tr>th*4)+tbody>tr*4>td*4 -->
+<table id="tabela1" class="table">
+    <thead>
+        <tr>
+            <th>Nome:</th>
+            <th>E-mail:</th>
+            <th>Cidade:</th>
+            <th colspan="2"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Adriana Fernandes</td>
+            <td>adriana.fernandes@gmail.com</td>
+            <td>São Paulo</td>
+            <td>
+                <button class="editar-item">Editar</button>
+            </td>
+            <td>
+                <button class="excluir-item">Excluir</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Thiago Garcia</td>
+            <td>thiago.garcia@gmail.com</td>
+            <td>Guaratinguetá</td>
+            <td>
+                <button class="editar-item">Editar</button>
+            </td>
+            <td>
+                <button class="excluir-item">Excluir</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Ana Helena</td>
+            <td>anahelena@gmail.com</td>
+            <td>Guaratinguetá</td>
+            <td>
+                <button class="editar-item">Editar</button>
+            </td>
+            <td>
+                <button class="excluir-item">Excluir</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Fabio Lobo</td>
+            <td>fabio.lobo@gmail.com</td>
+            <td>São Paulo</td>
+            <td>
+                <button class="editar-item">Editar</button>
+            </td>
+            <td>
+                <button class="excluir-item">Excluir</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<style>
+    body {
+        padding: 60px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 16px;
+    }
+
+    .table {
+        width: 100%;
+        border: 1px solid #ddd;
+        border-collapse: collapse;
+    }
+
+    .table th,
+    .table td {
+        border-bottom: 2px solid #ddd;
+        border-right: 1px solid #ddd;
+        background: #eee;
+        text-align: left;
+        padding: 15px;
+    }
+
+    .table td {
+        background: #fff;
+        border-bottom-width: 1px;
+    }
+
+    .table td.editable {
+        border-color: #FFA305;
+        color: #FFA305;
+        background: #FCF6EB;
+    }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+    const tabela = $('#tabela1');
+    //on (evento, alvo, funcao): monitora o evento (click) e associa o evento ao alvo''
+    // (no caso 'button excluir-item') e executa a funcao só se o alvo for clicado
+    tabela.on('click', 'button.excluir-item', function () {
+        let btn = $(this); // botao excluir que foi clicado
+        if (confirm('Tem certeza que quer excluir?')) {
+            btn.closest('tr').remove(); // remove o elemento pai mais proximo que atenda ao seletor
+        }
+
+    });
+
+    /* Editar itens */
+    tabela.on('click', 'button.editar-item', function () {
+        const btn = $(this); // botao editar que foi clicado
+        const pai = btn.parent(); // pega o elemento pai
+
+        if (btn.text() === 'Editar') {
+            btn.text('Cancelar Edição');
+            // pega todos os irmaos anteriores do elemento pai (prevAll('td'))
+            // adiciona a todos eles a classe 'ediatable'(addClass('editable'))
+            // ativa a edicao de conteudo direto na TAG (prop('contenteditable', true))
+            pai.prevAll('td').addClass('editable').prop('contenteditable', true);
+        }
+        else {
+            btn.text('Editar');
+            pai.prevAll('td').removeClass('editable').prop('contenteditable', false);
+        }
+    });
+</script>

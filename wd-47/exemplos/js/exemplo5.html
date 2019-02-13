@@ -1,0 +1,65 @@
+<meta charset="utf-8" />
+<h1>JS: addEventListener()</h1>
+<style>
+    .button {
+        background: #ddd;
+        border: 1px solid #bbb;
+        padding: 8px 15px;
+        border-radius: 5px;
+    }
+
+    .button:focus {
+        box-shadow: 0 0 10px #DB2323;
+    }
+</style>
+<button id="btn1" tabindex="0" class="button">
+    Click = Barra de Espaço
+</button>
+<button id="btn2" tabindex="0" class="button">
+    Click
+</button>
+<button id="btn3" tabindex="0" class="button">
+    MouseEnter + Barra de Espaço
+</button>
+<button id="btn4" tabindex="0" class="button">
+    Shift
+</button>
+<script>
+
+    const btn1 = document.querySelector('#btn1');
+    const btn2 = document.querySelector('#btn2');
+    const btn3 = document.querySelector('#btn3');
+    const btn4 = document.querySelector('#btn4');
+
+    function sayClick() {
+        alert('Cliiiiiick!!');
+    }
+
+    function sayBarraEspaco(event) {
+        //monitora a tecla de espaço do evento 'keyup''
+        if (event.key === ' ') {
+            event.preventDefault(); //define o comportamento padrao do evento
+            //só mostra o alerta se a tecla espaço foi acionada quando o botao estava com foco
+            alert('Barra de Espaçoooooo!!!');
+        }
+    }
+
+    function sayMouseEnter() {
+        //mensagem é mostrada quando o mouse passa sobre o botão
+        alert('Mouse está sobre o botaoooo!!');
+    }
+
+    //addEventListener() forma recomendada para asssocicao de eventos
+    btn1.addEventListener('click', sayClick);
+    btn1.addEventListener('keyup', sayBarraEspaco);
+    btn2.addEventListener('click', sayClick);
+    btn3.addEventListener('mouseenter', sayMouseEnter);
+    btn3.addEventListener('keyup', sayBarraEspaco);
+    btn4.addEventListener('keyup', function (event) {
+        if (event.key === 'Shift') {
+            alert('Shiiiiiiift!!');
+        }
+    });
+
+
+</script>

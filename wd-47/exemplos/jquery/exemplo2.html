@@ -1,0 +1,54 @@
+<meta charset="utf-8">
+<h1>Jquery: addClass, removeClass, hasClass, toggleClass</h1>
+<style>
+    .button {
+        background: #ddd;
+        border: 1px solid #bbb;
+        padding: 8px 15px;
+        border-radius: 5px;
+    }
+
+    .button-red {
+        background: #FFF0F0;
+        border-color: #DB2323;
+        color: #DB2323;
+    }
+</style>
+
+<button class="button" id="btn1">
+    addClass('button-red')
+</button>
+<button class="button button-red" id="btn2">
+    removeClass('button-red')
+</button>
+<button class="button" id="btn3">
+    toggleClass('button-red')
+</button>
+<button class="button button-red" id="btn4">
+    hasClass('button-red')(?)
+</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+   
+    $('#btn1').click(function() {
+        $(this).addClass('button-red');
+    });
+
+    $('#btn2').click(function () {
+        $(this).removeClass('button-red');
+    });
+
+    $('#btn3').click(function () {
+        $(this).toggleClass('button-red');
+    });
+
+    $('#btn4').click(function () {
+        let temClasseButtonRed = $(this).hasClass('button-red'); // tem classe button-red?
+        if (temClasseButtonRed === true) {
+            alert('SIMMM! Botão tem a classe "button red"');
+        }
+    });
+
+</script>

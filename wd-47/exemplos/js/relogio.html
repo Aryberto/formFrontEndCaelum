@@ -1,0 +1,115 @@
+<meta charset="utf-8">
+<div id="conteinerRelogio">
+    <div id="relogio">
+        <span id="hh">00</span>
+        :
+        <span id="mm">00</span>
+        :
+        <span id="ss">00</span>
+    </div>
+</div>
+<style>
+    #conteinerRelogio {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-size: contain;
+        background-position: center;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    #conteinerRelogio.manha {
+        background-image: url('imgs/breakfast.png');
+    }
+
+    #conteinerRelogio.tarde {
+        background-image: url('imgs/afternoon.jpg');
+    }
+
+    #conteinerRelogio.noite {
+        background-image: url('imgs/night.jpg');
+    }
+
+    #conteinerRelogio #relogio {
+        position: absolute;
+        bottom: 60px;
+        right: 60px;
+        font-size: 80px;
+        text-align: right;
+    }
+
+    #hh,
+    #ss {
+        font-weight: bolder;
+    }
+
+    #mm {
+        font-weight: lighter;
+        color: #fafafa;
+    }
+</style>
+<script>
+    function timer() {
+        //pega as informacoes do relogio da maquina
+        let hours = new Date().getHours();
+        let minutes = new Date().getMinutes();
+        let seconds = new Date().getSeconds();
+        //pega os elementos HTML que forma o relogio
+        const conteinerRelogio = document.querySelector('#conteinerRelogio');
+        const hh = document.querySelector('#hh');
+        const mm = document.querySelector('#mm');
+        const ss = document.querySelector('#ss');
+
+        //atualiza os numeros do relogio e tbm a img do fundo
+        function display() {
+            if (hours >= 6 && hours <= 11) {
+                conteinerRelogio.className = "manha";
+            }
+            else if (hours >= 12 && hours <= 16) {
+                conteinerRelogio.className = "tarde";
+            }
+            else {
+                conteinerRelogio.className = "noite";
+            }
+            //padStar(2, '0'): cria uma string com 2 espacos e caso o numeo nao preencha os 2 espacos ele preenche com 0 á equerda
+            //
+            ss.textContent = seconds.toString().padStart(2, '0');
+            mm.textContent = minutes.toString().padStart(2, '0');
+            hh.textContent = hours.toString().padStart(2, '0');
+        }
+        // atualiza os segundos
+        function updateSegundos() {
+            seconds++;
+            if (seconds === 60) {
+                seconds = 0;
+                updateMinutos();
+            }
+            display();
+        }
+
+        // atualiza os minutos
+        function updateMinutos() {
+            minutes++;
+            if (minutes === 60) {
+                minutes = 0;
+                updateHoras();
+            }
+            display();
+        }
+
+        // atualiza as horas
+        function updateHoras() {
+            hours++;
+            if (hours === 24) {
+                hours = 0;
+            }
+            display();
+        }
+
+        display(); // mostra as informacoes 
+        setInterval(updateSegundos, 1000); // chama a funcao a cada 1 segundo
+    }
+    timer();// inicia o relogio
+</script>

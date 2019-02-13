@@ -1,0 +1,153 @@
+<meta charset="utf-8">
+<h1>JS: eventBubbling, parentNode, previousElementsSibling</h1>
+
+<!-- table#tabela1.table>(thead>tr>th*4)+tbody>tr*4>td*4 -->
+<table id="tabela1" class="table">
+    <thead>
+        <tr>
+            <th>Nome:</th>
+            <th>E-mail:</th>
+            <th>Cidade:</th>
+            <th colspan="2"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Adriana Fernandes</td>
+            <td>adriana.fernandes@gmail.com</td>
+            <td>São Paulo</td>
+            <td>
+                <button class="editar-item">Editar</button>
+            </td>
+            <td>
+                <button class="excluir-item">Excluir</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Thiago Garcia</td>
+            <td>thiago.garcia@gmail.com</td>
+            <td>Guaratinguetá</td>
+            <td>
+                <button class="editar-item">Editar</button>
+            </td>
+            <td>
+                <button class="excluir-item">Excluir</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Ana Helena</td>
+            <td>anahelena@gmail.com</td>
+            <td>Guaratinguetá</td>
+            <td>
+                <button class="editar-item">Editar</button>
+            </td>
+            <td>
+                <button class="excluir-item">Excluir</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Fabio Lobo</td>
+            <td>fabio.lobo@gmail.com</td>
+            <td>São Paulo</td>
+            <td>
+                <button class="editar-item">Editar</button>
+            </td>
+            <td>
+                <button class="excluir-item">Excluir</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<style>
+    body {
+        padding: 60px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 16px;
+    }
+
+    .table {
+        width: 100%;
+        border: 1px solid #ddd;
+        border-collapse: collapse;
+    }
+
+    .table th,
+    .table td {
+        border-bottom: 2px solid #ddd;
+        border-right: 1px solid #ddd;
+        background: #eee;
+        text-align: left;
+        padding: 15px;
+    }
+
+    .table td {
+        background: #fff;
+        border-bottom-width: 1px;
+    }
+
+    .table td.editable {
+        border-color: #FFA305;
+        color: #FFA305;
+        background: #FCF6EB;
+    }
+</style>
+
+<script>
+    const tabela = document.querySelector('#tabela1');
+    tabela.addEventListener('click', excluiritem);
+    tabela.addEventListener('click', editarItem);
+
+
+    //excluir um item da tabela
+    function excluiritem() {
+
+        //console.log(event.target.tagName);
+
+        //event.target = contem o EXATO elemento que foi clicado
+        //verificamos se o elemento clicado TEM A CLASSE 'excluir-item'
+        let isBotaoExcluir = event.target.classList.contains('excluir-item');
+        //se o botao de exclusao fou clicado
+        if (isBotaoExcluir === true) {
+            if (confirm('Tem certeza que quer excluir?') === true) {
+
+                //event.target.parentNode.parentNode.remove();
+
+                let btn = event.target; // alvo do click (botao excluir)
+                let td = btn.parentNode; // pai do botao (<td>)
+                let tr = td.parentNode; // pai do <td> (<tr>)
+                tr.remove(); // remove o <tr>
+            }
+        }
+    }
+
+    //habilita a edicao dos items da tabela
+    function editarItem(event) {
+        let isBotaoEditar = event.target.classList.contains('editar-item');
+        // se o botao foi clicado
+        if (isBotaoEditar === true) {
+            let btn = event.target;
+            let tdPai = btn.parentNode; // td pai de "botao editar";
+            let tdIrmao = tdPai.previousElementSibling; // pegar o irmao anterior 
+            let isConteudoEditavel = true;
+            if (btn.textContent === 'Editar') {
+                btn.textContent = 'Cancelar Edição';
+            }
+            else {
+                btn.textContent = 'Editar';
+                isConteudoEditavel = false; // cancela a edicao do conteudo
+            }// fim do if
+
+            // enquanto a busca por irmaos anteriores nao for NULL
+            // continuamos subindo na hierarquia de irmaos anteriores 
+            // da tag <td>
+            while (tdIrmao !== null) {
+                tdIrmao.classList.toggle('editable');
+                //contentEditable: habilita a edicao do conteudo de uma TAG
+                tdIrmao.contentEditable = isConteudoEditavel;
+                // guarda em tdIrmao a referencia do novo elemento anterior na hierarquia de irmaos 
+                tdIrmao = tdIrmao.previousElementSibling;
+            }
+        }
+    }
+</script>

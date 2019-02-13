@@ -1,0 +1,72 @@
+<meta charset="utf-8"/>
+<h1>JS: var, let, const</h1>
+<!-- <script>
+    var idade = 26;
+    var preco = 78.87;
+    var nome = "Aryberto";
+    alert(`meu nome é: ${nome}`);
+</script> -->
+
+<script>
+
+// var a = 999;
+// if (true) {
+//     var b = a;
+// }
+//     console.log(b); // ReferenceError --> nao consegue achar a variavel
+
+// function teste() {
+//     var c = 8; // C nao existe na funcao teste()
+// } 
+// console.log(c); //referenceError -> nao consegue encontrar a variavel
+
+
+//variavel com let
+// let c = 888;
+// if (true) {
+//     let d = c;
+//     console.log('D foi encontrada no if', d);
+// }
+// console.log(d); //referenceError -> nao consegue encontrar a variavel
+
+//escopo vazio
+// {
+//     let bigData = [{nome: 'A', id: 1}, {nome: 'B', id:2}];
+//     console.log('Big data usada e removida da memoria', bigData);
+// }
+// console.log(bigData); ReferenceError;
+
+//loping com "var"
+// for(var e = 0; e <= 10; e++) {
+//     console.log('e: ', e);
+// }
+// console.log('fora do looping: ', e);
+
+//loping com "let"
+// for(let f = 0; f <= 10; f++) {
+//     console.log('f: ', f); 
+// }
+//console.log('fora do looping: ', f); //ReferenceError
+
+
+//Constantes: valores que nao podem ser reatribuidos
+const x = 0;
+// x = 2; //TypeError = novo valor nao pode ser atribuido a uma constante
+const lista = [12, 'hello', 'Adriana', true, 75.5]; //Array
+console.log('Minha lista: ', lista);
+lista.push('Jhonatan'); //adiciona um item na lista
+lista.shift(); //remove o primeiro
+console.log('Lista alterada ', lista); //okay
+//lista = []; //TypeError = estou tentando ratribuir o valor
+
+const pessoa = {
+    nome: 'Aryberto',
+    sobrenome: 'Cunha',
+    idade: 26
+};
+pessoa.nome = 'Joao'; // Alterar a propiedade nao da problema
+pessoa.cidade = 'Osasco'; // atribuicao de propiedades nao da problema 
+console.log('Pessoa: ', pessoa); //Okay!!! = Henrique
+
+
+</script>
